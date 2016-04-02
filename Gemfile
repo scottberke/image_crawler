@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.0.beta2'
 # Use sqlite3 as the database for Active Record
+gem 'minitest'
 gem 'sqlite3'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0.0.beta1'
@@ -37,7 +38,11 @@ group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0.0.beta4'
   gem 'spring'
+
+  gem 'rspec'
   gem 'rspec-rails'
   gem 'vcr'
+  gem 'pry'
+  gem 'database_cleaner'
 end
 
