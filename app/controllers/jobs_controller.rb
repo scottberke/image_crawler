@@ -2,6 +2,7 @@ class JobsController < ApplicationController
 
 
   def create
-    render json: {}, status: 202
+
+    render json: { id: 1 }, status: 202
   end
 end
