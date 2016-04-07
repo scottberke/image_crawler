@@ -18,7 +18,6 @@ describe JobsController do
 
     it 'returns the id of the created job' do
       post 'create', urls: urls
-      binding.pry
       expect(response.body).to include 'id'
     end
   end

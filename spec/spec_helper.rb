@@ -36,3 +36,12 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 end
+
+VCR.configure do |c|
+  c.debug_logger = File.open('log/vcr.log', 'w')
+  c.cassette_library_dir = 'spec/support/vcr_cassettes'
+  c.hook_into :webmock
+  c.default_cassette_options = { :erb => true }
+  c.ignore_localhost = true
+  c.allow_http_connections_when_no_cassette = true
+end
