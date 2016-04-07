@@ -27,6 +27,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'nokogiri'
 gem 'domainatrix'
 gem 'open_uri_redirections'
+gem 'sidekiq'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -43,9 +44,12 @@ group :development, :test do
 
   gem 'rspec'
   gem 'rspec-rails'
-  gem 'vcr'
-  gem 'webmock'
   gem 'pry'
   gem 'database_cleaner'
+end
+
+group :test do
+  gem 'vcr'
+  gem 'webmock'
 end
 
