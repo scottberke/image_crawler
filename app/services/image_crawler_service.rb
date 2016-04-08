@@ -7,14 +7,15 @@ class ImageCrawlerService
   VALID_FORMATS = ['.png', '.gif', '.jpg']
   DEEPEST_LEVEL = 1
 
-  attr_reader :results, :to_crawl_count, :crawled_count, :urls_to_crawl
+  attr_reader :job, :results
 
-  def initialize(urls: [], level: 0)
+  def initialize(urls: [], job_id:, level: 0)
     @urls_to_crawl = urls
+    @job = Job.find(job_id)
     @level = level
-    @to_crawl_count = urls_to_crawl.count
-    @crawled_count = 0
     @results = {}
+
+    job.update_attribute(:to_crawl, job.to_crawl + urls_to_crawl.count)
   end
 
   def crawl_urls
@@ -26,18 +27,20 @@ class ImageCrawlerService
 
       if level < DEEPEST_LEVEL
         external_urls = collect_urls
-        children = ImageCrawlerService.new(urls: external_urls, level: level + 1)
+        children = ImageCrawlerService.new(urls: external_urls, job_id: job.id, level: level + 1)
         children.crawl_urls
         results.merge!(children.results)
       end
 
       adjust_progress_counts
     end
+
+    job.update_attribute(:results, results.to_json)
   end
 
   private
 
-  attr_reader :doc, :host, :level
+  attr_reader :doc, :host, :level, :urls_to_crawl
 
   def collect_images
     img_tags = doc.css('img')
@@ -80,7 +83,7 @@ class ImageCrawlerService
   end
 
   def adjust_progress_counts
-    @to_crawl_count -= 1 unless to_crawl_count == 0
-    @crawled_count += 1
+    job.update_attribute(:to_crawl, job.to_crawl - 1)
+    job.update_attribute(:crawled, job.crawled + 1)
   end
 end

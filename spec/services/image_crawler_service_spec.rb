@@ -1,24 +1,35 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe ImageCrawlerService do
   let(:urls) { ['https://www.statuspage.io'] }
-  let(:image_crawler) { ImageCrawlerService.new(urls: urls) }
+  let(:job) { Job.new }
+  let(:image_crawler) { ImageCrawlerService.new(urls: urls, job: job) }
 
   describe '.new' do
     it 'initializes correctly' do
       expect(image_crawler).to be_a ImageCrawlerService
-      expect(image_crawler.urls_to_crawl).to eq urls
-      expect(image_crawler.to_crawl_count).to eq 1
-      expect(image_crawler.crawled_count).to eq 0
+      expect(image_crawler.job).to eq job
     end
   end
 
   describe '#crawls_urls' do
     it 'crawls through urls' do
       VCR.use_cassette('statuspage', :record => :new_episodes) do
-        expect(image_crawler.to_crawl_count).to eq 1
+        expect(job.crawled).to eq 0
+
         image_crawler.crawl_urls
-        expect(image_crawler.to_crawl_count).to eq 0
+
+        expect(job.crawled).to be > 0
+      end
+    end
+
+    it 'saves results to job results' do
+      VCR.use_cassette('statuspage', :record => :new_episodes) do
+        expect(job.results).to be_nil
+
+        image_crawler.crawl_urls
+
+        expect(job.results).not_to be_nil
       end
     end
   end
