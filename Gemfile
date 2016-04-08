@@ -29,6 +29,10 @@ gem 'nokogiri'
 gem 'domainatrix'
 gem 'open_uri_redirections'
 gem 'sidekiq'
+
+group :production do
+  gem 'unicorn'
+end
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
