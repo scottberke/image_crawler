@@ -6,7 +6,7 @@ gem 'rails', '4.2.0.beta2'
 gem 'arel', '6.0.0.beta2'
 # Use sqlite3 as the database for Active Record
 gem 'minitest'
-gem 'pg'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0.0.beta1'
 # Use Uglifier as compressor for JavaScript assets
@@ -31,6 +31,7 @@ gem 'open_uri_redirections'
 gem 'sidekiq'
 
 group :production do
+  gem 'pg'
   gem 'unicorn'
   gem 'rails_12factor'
 end
@@ -51,6 +52,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.4'
   gem 'pry'
   gem 'database_cleaner'
+  gem 'sqlite3'
 end
 
 group :test do
