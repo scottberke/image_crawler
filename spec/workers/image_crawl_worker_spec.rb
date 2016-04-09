@@ -6,21 +6,27 @@ describe ImageCrawlWorker do
   let(:job) { Job.create }
 
   it 'should add jobs to queue' do
-    expect do
-      ImageCrawlWorker.perform_async(urls, job.id)
-    end.to change(ImageCrawlWorker.jobs, :size).by(1)
+    VCR.use_cassette('statuspage', :record => :new_episodes) do
+      expect do
+        ImageCrawlWorker.perform_async(urls, job.id)
+      end.to change(ImageCrawlWorker.jobs, :size).by(1)
+    end
   end
 
   it 'should be in the default queue' do
-    ImageCrawlWorker.perform_async(urls, job.id)
+    VCR.use_cassette('statuspage', :record => :new_episodes) do
+      ImageCrawlWorker.perform_async(urls, job.id)
 
-    expect(ImageCrawlWorker.jobs[0]['queue']).to eq('default')
+      expect(ImageCrawlWorker.jobs[0]['queue']).to eq('default')
+    end
   end
 
   it 'should have correct arguments' do
-    ImageCrawlWorker.perform_async(urls, job.id)
+    VCR.use_cassette('statuspage', :record => :new_episodes) do
+      ImageCrawlWorker.perform_async(urls, job.id)
 
-    expect(ImageCrawlWorker.jobs[0]['args'][0]).to eq(urls)
-    expect(ImageCrawlWorker.jobs[0]['args'][1]).to eq(job.id)
+      expect(ImageCrawlWorker.jobs[0]['args'][0]).to eq(urls)
+      expect(ImageCrawlWorker.jobs[0]['args'][1]).to eq(job.id)
+    end
   end
 end

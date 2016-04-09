@@ -2,8 +2,8 @@ require 'rails_helper'
 
 describe ImageCrawlerService do
   let(:urls) { ['https://www.statuspage.io'] }
-  let(:job) { Job.new }
-  let(:image_crawler) { ImageCrawlerService.new(urls: urls, job: job) }
+  let(:job) { Job.create }
+  let(:image_crawler) { ImageCrawlerService.new(urls: urls, job_id: job.id) }
 
   describe '.new' do
     it 'initializes correctly' do
@@ -19,6 +19,7 @@ describe ImageCrawlerService do
 
         image_crawler.crawl_urls
 
+        job.reload
         expect(job.crawled).to be > 0
       end
     end
@@ -29,7 +30,8 @@ describe ImageCrawlerService do
 
         image_crawler.crawl_urls
 
-        expect(job.results).not_to be_nil
+        job.reload
+        expect(image_crawler.results).to eq JSON.parse(job.results)
       end
     end
   end

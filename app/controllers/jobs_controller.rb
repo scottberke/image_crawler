@@ -9,4 +9,24 @@ class JobsController < ApplicationController
 
     render json: { id: job.id }, status: 202
   end
+
+  def status
+    job = Job.find(params[:id])
+
+    response = { id: job.id,
+                 status: {
+                  completed: job.crawled,
+                  inprogress: job.to_crawl } }
+
+    render json: response
+  end
+
+  def results
+    job = Job.find(params[:id])
+
+    response = { id: job.id,
+             results: JSON.parse(job.results) }
+
+    render json: response
+  end
 end
