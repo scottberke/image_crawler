@@ -11,7 +11,7 @@ class JobsController < ApplicationController
   end
 
   def status
-    job = Job.find(params[:id])
+    job = Job.find(params[:id]) or not_found
 
     response = { id: job.id,
                  status: {
@@ -22,11 +22,17 @@ class JobsController < ApplicationController
   end
 
   def results
-    job = Job.find(params[:id])
+    job = Job.find(params[:id]) or not_found
 
     response = { id: job.id,
              results: JSON.parse(job.results) }
 
     render json: response
+  end
+
+  private
+
+  def not_found
+    raise ActionController::RoutingError.new('Not Found')
   end
 end

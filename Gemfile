@@ -50,9 +50,11 @@ group :development, :test do
   gem 'spring'
   gem 'rspec', '~> 3.4'
   gem 'rspec-rails', '~> 3.4'
+  gem 'faker'
   gem 'pry'
   gem 'database_cleaner'
   gem 'sqlite3'
+  gem 'factory_girl_rails'
 end
 
 group :test do

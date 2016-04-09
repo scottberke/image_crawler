@@ -22,9 +22,9 @@ describe JobsController do
   end
 
   describe 'GET status' do
-    let(:job) { Job.create(to_crawl: 8, crawled: 10) }
+    let(:job) { FactoryGirl.create(:job, :with_results) }
 
-    it 'returns http status 202' do
+    it 'returns http status 200' do
       get 'status', id: job.id
       expect(response.status).to eq 200
     end
@@ -48,6 +48,25 @@ describe JobsController do
   end
 
   describe 'GET results' do
+    let(:job) { FactoryGirl.create(:job, :with_results) }
 
+    it 'returns http status 200' do
+      get 'results', id: job.id
+      expect(response.status).to eq 200
+    end
+
+    it 'returns json content type' do
+      get 'results', id: job.id
+      expect(response.content_type).to eq "application/json"
+    end
+
+    it 'returns results' do
+      get 'results', id: job.id
+
+      expected_response = { id: job.id,
+                            results: JSON.parse(job.results) }
+
+      expect(response.body).to eq expected_response.to_json
+    end
   end
 end

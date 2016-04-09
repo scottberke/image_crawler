@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe ImageCrawlerService do
   let(:urls) { ['https://www.statuspage.io'] }
-  let(:job) { Job.create }
+  let(:job) { FactoryGirl.create(:job) }
   let(:image_crawler) { ImageCrawlerService.new(urls: urls, job_id: job.id) }
 
   describe '.new' do
