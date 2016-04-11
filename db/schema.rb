@@ -11,13 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160411034315) do
+ActiveRecord::Schema.define(version: 20160411040757) do
 
   create_table "jobs", force: true do |t|
     t.string   "sidekiq_jid"
     t.integer  "to_crawl",                       default: 0
     t.integer  "crawled",                        default: 0
-    t.text     "results",     limit: 4294967295
+    t.text     "results",     limit: 1073741823
     t.datetime "created_at",                                 null: false
     t.datetime "updated_at",                                 null: false
   end
