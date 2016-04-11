@@ -23,9 +23,10 @@ class JobsController < ApplicationController
 
   def results
     job = Job.find(params[:id]) or not_found
+    results = handle_results { job.results }
 
     response = { id: job.id,
-             results: JSON.parse(job.results) }
+                 results: results }
 
     render json: response
   end
@@ -34,5 +35,9 @@ class JobsController < ApplicationController
 
   def not_found
     raise ActionController::RoutingError.new('Not Found')
+  end
+
+  def handle_results
+    JSON.parse(yield) rescue {}
   end
 end
