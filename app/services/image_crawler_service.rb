@@ -83,6 +83,7 @@ class ImageCrawlerService
   end
 
   def adjust_progress_counts
+    job.reload
     job.update_attribute(:to_crawl, job.to_crawl - 1)
     job.update_attribute(:crawled, job.crawled + 1)
   end
