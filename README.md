@@ -14,7 +14,7 @@ $ curl -X POST -H 'Content-Type: application/json' -d '{"urls":["https://www.sta
 Response 202 (application/json)
 ```json
 {
-  'id': 'UNIQUE_JOB_ID'
+  "id": "UNIQUE_JOB_ID"
 }
 ```
 #### GET /jobs/UNIQUE_JOB_ID/status/
@@ -28,7 +28,7 @@ $ curl  https://stormy-earth-63942.herokuapp.com/jobs/UNIQUE_JOB_ID/status
 Response 200 (application/json)
 ```json
 {
-    "id":UNIQUE_JOB_ID,
+    "id": "UNIQUE_JOB_ID",
     "status": {
         "completed":1,
         "inprogress":0
@@ -47,7 +47,7 @@ $ curl  https://stormy-earth-63942.herokuapp.com/jobs/UNIQUE_JOB_ID/results
 Response 200 (application/json)
 ```json
 {
-    "id":UNIQUE_JOB_ID,
+    "id": "UNIQUE_JOB_ID",
     "results": {
         "https://www.statuspage.io": [
              "https://www.statuspage.io/image1.png",
